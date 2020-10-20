@@ -3,4 +3,5 @@
 ### 1、目录结构
 -lib --依赖文件
 -demo-basic-bar --基础柱形图
+-demo-basic-line --基础折线图
 -README.md --项目相关介绍 
