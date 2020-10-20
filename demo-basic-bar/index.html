@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>d3绘制基础柱形图</title>
+    <script src="../lib/d3.min.js"></script>
+</head>
+
+<body>
+    <div id="container"></div>
+
+
+    <script>
+        const height = 300;
+        const width = 500;
+        const margin = {
+            top: 20,
+            left: 40,
+            right: 20,
+            bottom: 20
+        };
+
+        const testData = [
+            { name: '杭州', value: 30 },
+            { name: '成都', value: 60 },
+            { name: '天津', value: 70 },
+            { name: '上海', value: 40 },
+            { name: '北京', value: 88 },
+            { name: '深圳', value: 100 }
+        ];
+
+        const x = d3.scaleBand().domain(d3.range(testData.length)).range([margin.left, width - margin.right]).padding(0.2);
+        const y = d3.scaleLinear().domain([0, d3.max(testData, d => d.value)]).range([height - margin.bottom, margin.top]);
+
+        function xAxis(g, x, offsetY, data) {
+            return g.attr('transform', `translate(0, ${offsetY})`)
+                .call(d3.axisBottom(x).ticks().tickSizeOuter(0).tickFormat(i => data[i].name));
+        }
+
+        function yAxis(g, y, offsetX) {
+            return g.attr('transform', `translate(${offsetX}, 0)`)
+                .call(d3.axisLeft(y).ticks().tickSizeOuter(0));
+        }
+
+        const svg = d3.select('#container').append('svg')
+            .attr('height', height)
+            .attr('width', width);
+
+        const chart = svg.append('g');
+        const gx = chart.append('g');
+        const gy = chart.append('g');
+
+
+        gx.call(xAxis, x, height - margin.bottom, testData);
+        gy.call(yAxis, y, margin.left);
+
+        chart.append('g').attr('fill', 'steelblue').selectAll('rect').data(testData).join('rect').transition().duration(500)
+            .attr('x', (d, i) => x(i))
+            .attr('y', d => y(d.value))
+            .attr('height', d => y(0) - y(d.value))
+            .attr('width', x.bandwidth());
+    </script>
+</body>
+
+</html>
