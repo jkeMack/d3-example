@@ -1,0 +1,32 @@
+/* 公共提示框样式 */
+.h-chart-tooltip{
+    position: fixed;
+    padding: 5px;
+    border-radius: 5px;
+    background: rgba(0,0,0,.5);
+    color:#fff;
+    font-size: 12px;
+    pointer-events: none;
+}
+
+.h-chart{
+
+}
+
+/* 防止文本的移入移出事件，触发提示文本的移除事件 */
+.h-chart text{
+    pointer-events: none;
+}
+
+.h-chart-pie-legend-item{
+    font-size: 12px;
+}
+
+.h-chart-pie-legend-item:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.h-chart-pie-legend-item-title{
+    
+}

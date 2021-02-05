@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>d3绘制基础扇形图</title>
+    <script src="../lib/d3.min.js"></script>
+</head>
+
+<body>
+    <div id="container"></div>
+
+
+    <script>
+        const height = 400;
+        const width = 400;
+        const margin = {
+            top: 20,
+            left: 40,
+            right: 20,
+            bottom: 20
+        };
+
+        const testData = [
+            { name: '杭州', value: 30 },
+            { name: '成都', value: 60 },
+            { name: '天津', value: 70 },
+            { name: '上海', value: 40 },
+            { name: '北京', value: 88 },
+            { name: '深圳', value: 100 },
+        ];
+
+
+        const radius = Math.min(width, height) / 2;
+
+        let arc = d3.arc().innerRadius(radius * 0.67).outerRadius(radius - 1);
+        let pie = d3.pie()
+            .padAngle(0.005)
+            .sort(null)
+            .value(d => d.value);
+        let color = d3.scaleOrdinal()
+            .domain(testData.map(d => d.name))
+            .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), testData.length).reverse());
+
+        const svg = d3.select('#container').append('svg')
+            .attr('height', height)
+            .attr('width', width);
+        const chart = svg.append('g').attr("transform", d => `translate(${width/2},${height/2})`);
+        const arcs = pie(testData);
+
+        chart.selectAll("path")
+            .data(arcs)
+            .join("path")
+            .attr("fill", d => color(d.data.name))
+            .attr("d", arc)
+            .append("title")
+            .text(d => `${d.data.name}: ${d.data.value.toLocaleString()}`);
+
+        chart.append("g")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 12)
+            .attr("text-anchor", "middle")
+            .selectAll("text")
+            .data(arcs)
+            .join("text")
+            .attr("transform", d => `translate(${arc.centroid(d)})`)
+            .call(text => text.append("tspan")
+                .attr("y", "-0.4em")
+                .attr("font-weight", "bold")
+                .text(d => d.data.name))
+            .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
+                .attr("x", 0)
+                .attr("y", "0.7em")
+                .attr("fill-opacity", 0.7)
+                .text(d => d.data.value.toLocaleString()));
+    </script>
+</body>
+
+</html>

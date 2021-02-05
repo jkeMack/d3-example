@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通用构造方法验证</title>
+    <script src="../lib/d3.min.js"></script>
+    <script src="./utils.js"></script>
+    <link rel="stylesheet" href="./common.css">
+</head>
+
+<body>
+
+    <script>
+        let option = {
+            xAxis:{
+                show: true,
+                type: 'category'
+            },
+            yAxis:{
+                show: true,
+                type: 'value'
+            },
+            height: 300,
+            width: 500,
+            margin:{
+                top: 20,
+                left: 40,
+                right: 20,
+                bottom: 20
+            },
+            data: [
+                { name: '杭州', value: 30 },
+                { name: '成都', value: 60 },
+                { name: '天津', value: 70 },
+                { name: '上海', value: 40 },
+                { name: '北京', value: 88 },
+                { name: '深圳', value: 100 }
+            ]
+        }
+
+        let barOption = {
+            xAxis:{
+                show: false,
+                type: 'value'
+            },
+            yAxis:{
+                show: true,
+                type: 'category'
+            },
+            height: 300,
+            width: 500,
+            margin:{
+                top: 20,
+                left: 40,
+                right: 20,
+                bottom: 20
+            },
+            data: [
+                { name: '杭州', value: 30 },
+                { name: '成都', value: 60 },
+                { name: '天津', value: 70 },
+                { name: '上海', value: 40 },
+                { name: '北京', value: 88 },
+                { name: '深圳', value: 100 }
+            ]
+        }
+
+        let pieOption = {
+            height: 300,
+            width: 400,
+            outerRadius: 0.9,
+            innerRadius:0.5,
+            tooltipFormatter: (data)=>{
+                return `${data.name}:${data.value}`;
+            },
+            legend:{
+                show: true,
+                position: 'left',
+                width: 60
+            },
+            data: [
+                { name: '杭州', value: 30 },
+                { name: '成都', value: 60 },
+                { name: '天津', value: 70 },
+                { name: '上海', value: 40 },
+                { name: '北京', value: 88 },
+                { name: '深圳', value: 100 }
+            ]
+        }
+
+        createBasicLine(option);
+        createBasicBar(option);
+        createBasicBar(barOption);
+        createBasicPie(pieOption);
+    </script>
+</body>
+
+</html>
