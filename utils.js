@@ -225,24 +225,23 @@ function createBasicPie(option) {
                 break;
         }
 
-        legendBox.selectAll("g").data(data).enter().call(createLegend, color, legend.postion, pieWidth, pieHeight);
+        legendBox.selectAll("g").data(data).enter().call(createLegend, color, legend.position, pieWidth, pieHeight);
         // 获取图例包含框实际撑开的高度和宽度
         let legendHeight = legendBox.node().getBBox().height;
         let legendWidth = legendBox.node().getBBox().width;
         if(position === 'left' || position === 'right'){
             legendBox.attr("transform", `translate(0, ${(height - legendHeight)/2})`);
         }else{
-            legendBox.attr("transform", `translate(${(width - legendWidth)/2}, ${(height - legendHeight)/2})`);
+            legendBox.attr("transform", `translate(${(width - legendWidth)/2}, ${(legend.height - legendHeight)/2})`);
         }
     }
 
     let tooltip = craeteTooltip();
     d3.selectAll(".h-chart-arc").on("mouseover", function (e) {
-        let data = e.target.__data__;
+        let data = e.target.__data__.data;
         tooltip.html(tooltipFormat ? tooltipFormat(data) : `${data.name}:${data.value}`).style("left", e.pageX + "px").style("top", (e.pageY + 5) + "px").style("opacity", 1);
     })
     d3.selectAll(".h-chart-arc").on("mouseout", function (e) {
-        let data = e.target.__data__;
         tooltip.style("opacity", 0);
     })
 }
